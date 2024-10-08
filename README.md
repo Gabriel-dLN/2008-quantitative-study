@@ -1,4 +1,4 @@
-# Distress in financial institutions during the 2008 housing crisis
+# Modeling distresses of financial institutions during the 2008 housing crisis using **Time Dependant Cox Proportional Hazard Model**
 
 This project aims a explaining quantitatively the causes of the distress that many companies that participated in the housing bubble went through between 2007 and 2008.
 
