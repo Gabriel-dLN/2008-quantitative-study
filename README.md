@@ -1,30 +1,32 @@
-# Study of the causes that led financial institutions to bankruptcy during the 2008 housing bubble using a **Time Dependant Cox Proportional Hazard Model**
+# **Study of the Causes that Led Financial Institutions to Bankruptcy During the 2008 Housing Bubble Using a Time-Dependent Cox Proportional Hazard Model**
 
 
-This project aims at providing a quantitative explaination of the causes that led the companies which participated in the speculation around the 2008 housing bubble to bankruptcy.
+This project aims to provide a quantitative explanation of the causes that led companies involved in speculation during the 2008 housing bubble to bankruptcy. It uses a variant of a model commonly applied in survival analysis: the **Cox Proportional Hazard Model**.
 
-It uses a variant of a model commonly used in Survival Analysis which is the Cox Proportional Hazard Model.
+
+Here is a refined version of your text with minor corrections for readability and clarity:
+
 
 # Dataset
 
-The dataset has been created by querying data form the [Center for Research in Security Prices, LLC (CRSP)](https://www.crsp.org/), and the [Federal Reserve Bank of St. Louis](https://fred.stlouisfed.org/) and is composed (at the moment) 37 companies, 19 of which were in financial trouble during the 2008 crisis.
+The dataset was created by querying data from [Wharton Research Data Services (WRDS)](https://wrds-www.wharton.upenn.edu/), the [Center for Research in Security Prices, LLC (CRSP)](https://www.crsp.org/), and the [Federal Reserve Bank of St. Louis](https://fred.stlouisfed.org/). It currently includes 37 companies, 19 of which experienced financial distress during the 2008 crisis.
 
-It contains many different financial ratios reported quartely taken form 3 different categories: Efficiency (ex: Inventory Turnover, ...), Financial Soundness (ex: Short-Term Debt/Total Debt ratio, ...) and Solvency (ex: Leverage ratios, ...), as well as some macroeconomic variables (ex: House Price Index, Mortgage Delinquency Rate, ...) available monthly. Details about the ratios used can be found [here](https://github.com/Gabriel-dLN/Project/blob/main/data_to_prepare/WRDS_Industry_Financial_Ratio_Manual.pdf).
+It contains various financial ratios reported quarterly, categorized into three groups: Efficiency (e.g., Inventory Turnover), Financial Soundness (e.g., Short-Term Debt/Total Debt Ratio), and Solvency (e.g., Leverage Ratios). Additionally, the dataset includes macroeconomic variables (e.g., House Price Index, Mortgage Delinquency Rate) available monthly. Details about the ratios can be found [here](https://github.com/Gabriel-dLN/Project/blob/main/data_to_prepare/WRDS_Industry_Financial_Ratio_Manual.pdf).
 
-Is added to these variables their first differences, which are noted with a 'd' in front of their name (e.g. dinv_turn instead of inv_turn). This is to take into account the effect of the variation of the variable on the risk of distress.
+For each variable, the first differences are also included, noted with a 'd' in front of the variable name (e.g., `dinv_turn` instead of `inv_turn`), to account for the effect of variable changes on the risk of distress.
 
+The date range spans from **January 1, 2000, to January 1, 2010**.
 
-The date range is 01-01-2000 to 01-01-2010.
+Currently, all covariates have been normalized on a company-by-company basis.
 
-For the moment, all the covariates have been normalized company-wise.
+Companies are labeled as "in distress" if they were in severe financial difficulty at some point between 2007 and 2009. This distress category includes companies that went bankrupt, were acquired, or received substantial government bailouts.
 
-Companies are labeled "in distress" if they were in a very bad economic condition at some point around 2007-2009. The distress category is composed by companies that went bankrupt, that got purchased of got a substancial bailout from the government.
+Although somewhat subjective, this classification is well-suited for the study. Many banks received assistance through the Troubled Asset Relief Program (TARP), but the reasons for this varied. For example, JPMorgan received TARP funds to facilitate its purchase of Bear Stearns, while Citigroup used the funds to pay off debt. Since these two cases are fundamentally different, it would not make sense to classify them in the same way. As a result, I’ve categorized Citigroup as "in distress" but not JPMorgan.
 
-It is subjective but fairly good for the study. For example, Lehman Brother filed for chapter 11 bankruptcy and liquidation whereas Bear Stearn was purhcased by JP Morgan but both went out of business, so putting them in different categories wouldn't make much sense. Same thing for companies that benefited from the Troubled Asset Relief Program (TARP): almost all the banks got a bailout (received financial assistance from their government) but for different reason like to pay their debt or in contrast to purchase a troubled company. 
 
 # Model
 
-The model used throughout this project is a **Time Dependant Cox Proportional Hazard Model**.
+The model used throughout this project is a **Time Dependent Cox Proportional Hazard Model**.
 ### Model specification
 
 ### Hypothesis
@@ -34,7 +36,8 @@ More on that [here](https://bmcmedresmethodol.biomedcentral.com/articles/10.1186
 
 # Approach
 
-The data range used to fit the model is 06-30-2002 to 01-01-2010, to avoid the effects of the dot-com bubble. Each crisis is one of a kind with its own intrinsic phenomena, and this study aims at explaining the subprimes crisis.
+The model is fitted using data from June 30, 2002, to January 1, 2010, to avoid any residual effects from the dot-com bubble. Each financial crisis is unique, with its own set of underlying causes and dynamics, and this study specifically focuses on explaining the 2008 subprime mortgage crisis.
+
 ### Potential biases
 Thin limit between in distress and not.
 
@@ -45,7 +48,7 @@ The project is still in a research stage, but some interesting first results.
 In the example below, a Time Dependant Cox Proportional Hazard Model is fitted on the data with the following covariates:
 - debt_assets: Total Debt as a fraction of Total Assets.
 - inv_turn: Inventory Turnover: COGS (Cost Of Goods Sold) as a fraction of the average Inventories based on the most recent two periods.
-- dUNRATE: **Variation of** the unemployment rate. it represents the number of unemployed as a percentage of the labor force.<!--  Labor force data are restricted to people 16 years of age and older, who currently reside in 1 of the 50 states or the District of Columbia, who do not reside in institutions (e.g., penal and mental facilities, homes for the aged), and who are not on active duty in the Armed Forces.  -->
+- dUNRATE: **Variation of** the unemployment rate: it represents the number of unemployed as a percentage of the labor force.<!--  Labor force data are restricted to people 16 years of age and older, who currently reside in 1 of the 50 states or the District of Columbia, who do not reside in institutions (e.g., penal and mental facilities, homes for the aged), and who are not on active duty in the Armed Forces.  -->
 
 <!-- - rect_turn: Receivables Turnover: Sales as a fraction of the average of Accounts Receivables based on the most recent two periods -->
 <!-- - ddebt_assets: **Variation of** Total Debt/Total Assets: Variation of the Total Debt as a fraction of Total Assets -->
