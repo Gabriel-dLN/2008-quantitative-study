@@ -34,17 +34,22 @@ More on that [here](https://bmcmedresmethodol.biomedcentral.com/articles/10.1186
 
 # Approach
 
+The data range used to fit the model is 06-30-2002 to 01-01-2010, to avoid the effects of the dot-com bubble. Each crisis is one of a kind with its own intrinsic phenomena, and this study aims at explaining the subprimes crisis.
 ### Potential biases
+Thin limit between in distress and not.
 
 # First results
 
 The project is still in a research stage, but some interesting first results.
 
 In the example below, a Time Dependant Cox Proportional Hazard Model is fitted on the data with the following covariates:
-- inv_turn: Inventory Turnover: COGS (Cost Of Goods Sold) as a fraction of the average Inventories based on the most recent two periods
-- rect_turn: Receivables Turnover: Sales as a fraction of the average of Accounts Receivables based on the most recent two periods
-- ddebt_assets: **Variation of** Total Debt/Total Assets: Variation of the Total Debt as a fraction of Total Assets
-- dinv_turn: **Variation of** Inventory Turnover: **Variation of** COGS as a fraction of the average Inventories based on the most recent two periods.
+- debt_assets: Total Debt as a fraction of Total Assets.
+- inv_turn: Inventory Turnover: COGS (Cost Of Goods Sold) as a fraction of the average Inventories based on the most recent two periods.
+- dUNRATE: **Variation of** the unemployment rate. it represents the number of unemployed as a percentage of the labor force.<!--  Labor force data are restricted to people 16 years of age and older, who currently reside in 1 of the 50 states or the District of Columbia, who do not reside in institutions (e.g., penal and mental facilities, homes for the aged), and who are not on active duty in the Armed Forces.  -->
+
+<!-- - rect_turn: Receivables Turnover: Sales as a fraction of the average of Accounts Receivables based on the most recent two periods -->
+<!-- - ddebt_assets: **Variation of** Total Debt/Total Assets: Variation of the Total Debt as a fraction of Total Assets -->
+<!-- - dinv_turn: **Variation of** Inventory Turnover: **Variation of** COGS as a fraction of the average Inventories based on the most recent two periods. -->
 
 
 Using the table below, we can interpret the results:
@@ -59,36 +64,46 @@ All the p-values are under 0.05. The Model is then statistically significant.
 
 ### Covariate Interpretations
 
-#### 1. **inv_turn (Inventory Turnover)**
-   - **Coefficient** = 0.43
-   - **Hazard Ratio (exp(coef))** = 1.54
-   - **Interpretation**: An one point increase in inventory turnover is associated with a 54% increase in the risk of distress. It particularly makes sense as a lot of companies that went bankrupt were financing themselves using overnight REPOs. This implies a higher risk in case of a decrease of the liquidity or of a high market volatility environment.
+#### 1. **deb_assets (Debt to Assets Ratio)**
+   - **Coefficient** = 0.72
+   - **Hazard Ratio (exp(coef))** = 2.06
+   - **Interpretation**: An increase in the debt-to-assets (or leverage) ratio is associated with an increase in the risk of distress. Indeed, a higher leverage ratio leads to more risks. This aligns with typical financial intuition— companies with higher debt relative to their assets are more likely to face financial strain, especially during downturns.
+   <!-- Add interpretation of what were the financial products that were assets and what were debts -->
 
-#### 2. **rect_turn (Receivables Turnover)**
+#### 2. **inv_turn (Inventory Turnover)**
+   - **Coefficient** = 0.50
+   - **Hazard Ratio (exp(coef))** = 1.65
+   - **Interpretation**: An increase in inventory turnover is associated with an increase in the risk of distress. It particularly makes sense as a lot of companies that went bankrupt were financing themselves using overnight REPOs. This implies a higher risk in case of a decrease of the liquidity or of a high market volatility environment.
+
+#### 3. **dUNRATE (Variation of the Unemployement rate)**
+   - **Coefficient** = 2.37
+   - **Hazard Ratio (exp(coef))** = 10.70
+   - **Interpretation**: An increase in the variation of the unemployement rate is associated with an increase in the risk of distress.
+
+### Comparison of the hazard ratios (the exp(coef))
+We notice that the variation of the unemployment rate is the primary factor of distress, followed by the leverage ratio, which is closely followed by the inventory turnover.
+
+<!-- #### 2. **rect_turn (Receivables Turnover)**
    - **Coefficient** = -1.03
    - **Hazard Ratio (exp(coef))** = 0.36
-   - **Interpretation**: A one point increase in receivables turnover (companies are collecting their receivables more quickly) is associated with a **64% decrease** in the risk of distress. This ratio illustrates the exposure to other financial institutions and the liquidity of the lending market. Companies stuggling with collecting debt will also struggle to issue some, as they are less solvable.
+   - **Interpretation**: A one point increase in receivables turnover (companies are collecting their receivables more quickly) is associated with a **64% decrease** in the risk of distress. This ratio illustrates the exposure to other financial institutions and the liquidity of the lending market. Companies stuggling with collecting debt will also struggle to issue some, as they are less solvable. -->
 
-#### 3. **ddeb_assets (Variation in Debt to Assets Ratio)**
-   - **Coefficient** = 0.38
-   - **Hazard Ratio (exp(coef))** = 1.47
-   - **Interpretation**: A one point increase in the debt-to-assets ratio is associated with a **47% increase** in the risk of distress. Indeed, a higher leverage ratio leads to more risks. This aligns with typical financial intuition— companies with higher debt relative to their assets are more likely to face financial strain, especially during downturns.
-
-#### 4. **dinv_turn (Variation in Inventory Turnover)**
+<!-- #### 1. **dinv_turn (Variation in Inventory Turnover)**
    - **Coefficient** = 0.38
    - **Hazard Ratio (exp(coef))** = 1.46
-   - **Interpretation**: Higher variations in inventory turnover increases the risk of distress by **46%**. In fact, companies with a lot of short term debt are more vulnerable during liquidity crisis.
+   - **Interpretation**: Higher variations in inventory turnover increases the risk of distress by **46%**. In fact, companies with a lot of short term debt are more vulnerable during liquidity crisis. -->
 
 ### Multicollinearity Consideration
-The correlation matrix at the bottom shows relatively low correlations between the covariates (except **inv_turn** and **dinv_turn** which have a moderate correlation of 0.36). This suggests that multicollinearity is not a significant issue in your model, meaning the estimated effects of each covariate are likely reliable.
+The correlation matrix at the bottom shows relatively low correlations between the covariates (the maximum is 0.19). This suggests that multicollinearity is not a significant issue in the model, meaning the estimated effects of each covariate are likely reliable.
 
 ### Concordance Index
-The concordance index is 0.40, which suggests the model has limited predictive ability. While the coefficients are statistically significant and align with reasonable interpretations, the overall model’s ability to correctly rank companies by their risk of distress is low.
+The concordance index is 0.23, which suggests the model has no predictive ability. While the coefficients are statistically significant and align with reasonable interpretations, the overall model’s ability to correctly rank companies by their risk of distress is low.
 
-This isn't much of a problem as the model has no predictive purpose. Having a low concordance index but statistically significant variables is still relevant: the model shows that the 4 covariates have a real impact on the hazard ratio and so, the probability to be in distress. For instance, the model reveals that an increase in the inventory turnover and debt to asset ratio, and a decreace in the receivable turnover ratio lead to a higher risk for companies to be in distress.
+This isn't much of a problem as the model has no predictive purpose. Having a low concordance index but statistically significant variables is still relevant: the model shows that the 3 covariates have a real impact on the hazard ratio and so, the probability to be in distress.
 
-Other effects can be responsible for the difficulty to obtain a model with high concordance:
-- The data used for this study is reported quarterly so the duration between the beginning and end of the quarted isn't taken into account and companies categorized as in distress in the same quarter are
+Other effects can be responsible for the difficulty to obtain a model with high a concordance ratio:
+- The data used for this study is reported quarterly so the duration between the beginning and end of the quarted isn't taken into account and companies categorized as in distress in the same quarter are noted the same day.
 - The precision of the distress category is vague, so the order in which the companies go bankrupt is very approximate.
 - A lot depends on human intervention, government policies and other events that are not quantifiable.
 - Bad quality data.
+- Sometimes the data of the companies that were in distress and those who were not are very similar, as each of them was highly impacted by the crisis. Adding companies from different sectors would not really make sense because they are different businesses so different ways of working and could dilute the relevant information.
