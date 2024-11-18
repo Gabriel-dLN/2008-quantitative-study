@@ -1,10 +1,32 @@
+# New idea
+
+Clarify what I've already done:
+- What are we doing.
+- What are the variables precisely.
+- Put a representative screenshot of the database.
+
+
+Study which variables influence the propbability to be close to max drawdown.
+
+
+Ordered logistic regression
+Make classes:
+- Under 60% of the max drawdown.
+- Attained 60% of the max drawdown.
+- Attained 80% of the max drawdown.
+- Attained 100% of the max drawdown (cut history after, or not?).
+
+Logistic regression
+or 2 classes:
+- Within 80-100% of max drawdown
+- Not within 80-100% of max drawdown
+
+
 # **Study of the Causes that Led Financial Institutions to Bankruptcy During the 2008 Housing Bubble Using a Time-Dependent Cox Proportional Hazard Model**
 
 
 This project aims to provide a quantitative explanation of the causes that led companies involved in speculation during the 2008 housing bubble to bankruptcy. It uses a variant of a model commonly applied in survival analysis: the **Cox Proportional Hazard Model**.
 
-
-Here is a refined version of your text with minor corrections for readability and clarity:
 
 
 # Dataset
